@@ -1,0 +1,481 @@
+:root {
+  --bg: #f4f5fa;
+  --surface: #ffffff;
+  --border: #e6e8f0;
+  --text: #1b1f2b;
+  --muted: #667085; /* darkened slightly from before for better contrast/legibility */
+
+  --primary: #5b4fe9;
+  --primary-dark: #453adb;
+  --green: #0fa36b;
+  --amber: #f5a623;
+  --red: #f2545b;
+
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-feature-settings: 'tnum' 1;
+  overflow-x: hidden;
+  /* Readable base size + generous line-height, applied everywhere by default */
+  font-size: 15.5px;
+  line-height: 1.55;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+img, svg {
+  max-width: 100%;
+  display: block;
+}
+
+/* ====================================================================
+   Layout container
+   Desktop/laptop (>960px): full 5-col metrics, 2-col body (table + side)
+   Tablet (721px–960px): 2-col metrics, body stacks to 1 column
+   Phone (481px–720px): 2-col metrics, table becomes stacked cards
+   Small phone (<=480px): 1-col metrics, tighter spacing
+   ==================================================================== */
+
+.dashboard {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 36px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+@media (min-width: 1600px) {
+  .dashboard {
+    max-width: 1320px;
+  }
+}
+
+.dashboard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dashboard__header h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  /* Raised minimum from 22px to 24px so it never reads too small on phones */
+  font-size: clamp(24px, 4vw, 32px);
+  line-height: 1.2;
+  margin: 0 0 4px;
+}
+
+.dashboard__sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.banner {
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14.5px;
+}
+.banner--error {
+  background: #fdeceb;
+  color: var(--red);
+  border: 1px solid #f6c8c9;
+}
+
+/* --- Buttons --- */
+
+.btn {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 11px 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  min-height: 44px;
+  transition: transform 0.06s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.btn--primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(91, 79, 233, 0.28);
+}
+.btn--primary:hover { background: var(--primary-dark); }
+.btn--primary:active { transform: translateY(1px); }
+.btn--ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+.btn--ghost:hover { background: #f0f1f7; }
+
+/* --- Metric cards --- */
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+.metric-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+.metric-card__label {
+  /* Raised from 12px to 13px — uppercase+letterspaced text needs a touch more size to stay legible */
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.metric-card__value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  /* Raised minimum from 16px to 19px so the headline numbers are always prominent */
+  font-size: clamp(19px, 2.4vw, 24px);
+  line-height: 1.25;
+  overflow-wrap: break-word;
+}
+.metric-card__sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* --- Panels --- */
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+}
+
+.panel__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.muted { color: var(--muted); font-weight: 400; font-size: 14px; }
+
+/* --- Order form --- */
+
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.order-form__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.order-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  min-width: 0;
+}
+.order-form input {
+  font-family: var(--font-body);
+  /* Kept at 16px minimum: stops iOS Safari auto-zooming on focus */
+  font-size: 16px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: #fbfbfe;
+  color: var(--text);
+  outline: none;
+  width: 100%;
+  min-height: 44px;
+}
+.order-form input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(91, 79, 233, 0.12);
+}
+.order-form__error {
+  color: var(--red);
+  font-size: 14px;
+  margin: 0;
+}
+.order-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* --- Body layout --- */
+
+.dashboard__body {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.dashboard__side {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* --- Orders table --- */
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  /* Raised from 13.5px to 14.5px for comfortable reading of dense data */
+  font-size: 14.5px;
+}
+thead th {
+  text-align: left;
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+}
+tbody td {
+  padding: 13px 10px;
+  border-bottom: 1px solid var(--border);
+}
+tbody tr:last-child td { border-bottom: none; }
+.mono { font-variant-numeric: tabular-nums; }
+.strong { font-weight: 700; }
+
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eef0fb;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.row-actions {
+  display: flex;
+  gap: 6px;
+  white-space: nowrap;
+}
+.icon-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 15px;
+  color: var(--muted);
+}
+.icon-btn:hover { background: #f0f1f7; }
+.icon-btn--danger:hover { background: #fdeceb; color: var(--red); border-color: #f6c8c9; }
+
+.row--editing td { background: #fafaff; padding: 16px; }
+
+/* --- Category bars --- */
+
+.bars { display: flex; flex-direction: column; gap: 12px; }
+.bar-row {
+  display: grid;
+  grid-template-columns: 92px 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+.bar-row__label {
+  font-size: 14px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bar-row__track {
+  height: 8px;
+  border-radius: 5px;
+  background: #eef0f7;
+  overflow: hidden;
+}
+.bar-row__fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.4s ease;
+}
+.bar-row__value {
+  font-size: 13.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* --- Segmentation --- */
+
+.segment-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.segment-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+}
+.segment-row__name {
+  font-size: 14.5px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.segment-row__spend { font-size: 14px; color: var(--muted); white-space: nowrap; }
+.segment-badge {
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dashboard__footer {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 13px;
+  padding-top: 6px;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ===================== Tablet (721px – 960px) ===================== */
+@media (max-width: 960px) {
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .dashboard__body { grid-template-columns: 1fr; }
+}
+
+/* ===================== Phone (481px – 720px) ===================== */
+@media (max-width: 720px) {
+  body { font-size: 15px; }
+
+  .dashboard { padding: 22px 16px 28px; gap: 16px; }
+
+  .dashboard__header { flex-direction: column; align-items: stretch; gap: 12px; }
+  .dashboard__header .btn--primary { width: 100%; }
+
+  .metrics { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .metric-card { padding: 14px; }
+
+  .panel { padding: 16px; border-radius: 14px; }
+
+  .order-form__grid { grid-template-columns: 1fr; }
+  .order-form__actions { flex-direction: column-reverse; }
+  .order-form__actions .btn { width: 100%; }
+
+  /* Table -> stacked cards. Each <tr> becomes a card; each <td> becomes a
+     labeled row inside it, using the data-label attribute set in App.jsx. */
+  .table-wrap { overflow-x: visible; }
+  thead { display: none; }
+  table, tbody, tr, td { display: block; width: 100%; }
+  tbody tr {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 6px 4px;
+  }
+  tbody tr.row--editing { padding: 0; }
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px dashed var(--border);
+    padding: 11px 10px;
+    font-size: 14.5px;
+  }
+  tbody td:last-child { border-bottom: none; }
+  tbody td[data-label]::before {
+    content: attr(data-label);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+  tbody td[data-label=""]::before { content: none; }
+  .row-actions { justify-content: flex-end !important; }
+  .icon-btn { width: 40px; height: 40px; font-size: 16px; }
+
+  .segment-row { grid-template-columns: 1fr auto; row-gap: 4px; }
+  .segment-row__spend { grid-column: 1 / 2; }
+
+  .bar-row { grid-template-columns: 76px 1fr auto; }
+}
+
+/* ===================== Small phone (<=480px) ===================== */
+@media (max-width: 480px) {
+  body { font-size: 14.5px; }
+
+  .dashboard { padding: 18px 12px 24px; gap: 14px; }
+
+  .metrics { grid-template-columns: 1fr; gap: 8px; }
+  .metric-card { padding: 12px 14px; }
+
+  .panel { padding: 14px; border-radius: 12px; }
+  .panel__title { font-size: 16px; }
+
+  .dashboard__footer { flex-direction: column; gap: 4px; }
+
+  .bar-row { grid-template-columns: 1fr; row-gap: 4px; }
+  .bar-row__label { white-space: normal; }
+
+  tbody td { padding: 10px; font-size: 14px; }
+}
+
+/* ===================== Short/landscape phones ===================== */
+@media (max-height: 480px) and (orientation: landscape) {
+  .dashboard { padding: 14px 20px 20px; gap: 12px; }
+  .panel { padding: 14px; }
+}
