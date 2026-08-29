@@ -1,7 +1,7 @@
 // For local development this points at your local backend.
 // When deploying (see README.md "Deploying to a live URL"), change this
 // to your deployed backend's URL, e.g. 'https://your-app.onrender.com'
-const API_URL = 'http://localhost:8000'
+const API_URL = 'https://trainingatnotasco.onrender.com'
 
 async function request(path, options = {}) {
   const res = await fetch(`${API_URL}${path}`, {
