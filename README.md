@@ -36,6 +36,8 @@ A full-stack sales analytics dashboard — track orders, revenue, best-sellers, 
 
 ![Health check](docs/screenshots/health-check.png)
 
+The dashboard shows five key metric cards up top, a live-editable orders table, a category-sales bar chart, and a customer segmentation list — all updating automatically after every add, edit, or delete.
+
 ---
 
 ## 🏗️ Tech Stack
