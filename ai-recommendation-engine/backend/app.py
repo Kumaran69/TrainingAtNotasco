@@ -87,13 +87,25 @@ class MongoStore:
         self._collection = self._client[db_name]["users"]
 
     def seed_if_empty(self, seed_users):
-        if self._collection.count_documents({}) == 0:
-            docs = [
-                {"_id": uid, "interests": sorted(interests)}
-                for uid, interests in seed_users.items()
-            ]
-            self._collection.insert_many(docs)
-            log.info("Seeded MongoDB with %d default users.", len(docs))
+        from pymongo.errors import DuplicateKeyError
+
+        docs = [
+           {"_id": uid, "interests": sorted(interests)}
+            for uid, interests in seed_users.items()
+        ]
+
+        for doc in docs:
+            try:
+             self._collection.update_one(
+                {"_id": doc["_id"]},
+                {"$setOnInsert": doc},
+                upsert=True
+            )
+            except DuplicateKeyError:
+             # Another worker may have inserted it simultaneously.
+                 pass
+
+    log.info("MongoDB default users verified.")
 
     def all_users(self):
         return {
