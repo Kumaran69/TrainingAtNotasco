@@ -1,4 +1,4 @@
-const BASE = "/api";
+const BASE = import.meta.env.VITE_API_BASE_URL;
 const API_KEY_STORAGE = "railcart_api_key";
 const TOKEN_STORAGE = "railcart_token";
 
